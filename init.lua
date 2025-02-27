@@ -1,12 +1,16 @@
 require("customconfig")
 require("config.lazy")
 
-vim.opt.tabstop=8
-vim.opt.softtabstop=8
-vim.opt.shiftwidth=4
-vim.opt.smarttab=true
-vim.opt.expandtab=true
-vim.opt.smartindent=true
-vim.opt.number=true
-
 vim.opt.statusline ="%{FugitiveStatusline()}"
+
+vim.o.tabstop=8
+vim.o.softtabstop=8
+vim.o.shiftwidth=4
+vim.o.smarttab=true
+vim.o.expandtab=true
+vim.o.smartindent=true
+vim.o.number=true
+
+vim.o.termguicolors = true
+vim.o.background = 'light'
+vim.cmd.colorscheme 'onedark'
