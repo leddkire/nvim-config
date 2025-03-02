@@ -19,10 +19,7 @@ vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
---- Todo: keymap for pasting from different registers
-
 vim.keymap.set("n", "Q", "<nop>")
-
 
 -- Quick-fix list. Must learn tool
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
