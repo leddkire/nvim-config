@@ -1,5 +1,6 @@
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 vim.keymap.set("n", "<leader>gp", function() vim.cmd([[:Git push]]) end)
 vim.keymap.set("n", "<leader>gP", function() vim.cmd([[:Git pull]]) end)
-vim.keymap.set("n", "<leader>gPr", function() vim.cmd([[:Git rebase]]) end)
+vim.keymap.set("n", "<leader>gr", function() vim.cmd([[:Git rebase]]) end)
+
 
