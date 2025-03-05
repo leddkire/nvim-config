@@ -1,7 +1,8 @@
 require("customconfig")
 require("config.lazy")
+require("project_config")
 
-vim.opt.statusline ="%{FugitiveStatusline()}"
+--- vim.opt.statusline ="%{FugitiveStatusline()}"
 
 vim.o.tabstop=8
 vim.o.softtabstop=8
