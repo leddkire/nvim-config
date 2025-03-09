@@ -50,7 +50,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- These are example language servers.
 require('lspconfig').gleam.setup({})
 require('lspconfig').ocamllsp.setup({})
-require('lspconfig').gdscript.setup({})
+require('lspconfig').gdscript.setup({
+    name="godot",
+    cmd= vim.lsp.rpc.connect("127.0.0.1","6008"),
+})
 require('lspconfig').lua_ls.setup({})
 
 local cmp = require('cmp')
