@@ -22,11 +22,10 @@ vim.keymap.set("n", "<leader>Y", "\"+Y")
 vim.keymap.set("n", "Q", "<nop>")
 
 -- Quick-fix list. Must learn tool
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Next item in the quickfix list" })
+vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous item in the quickfix list" })
+vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Next item in the quickfix list (use current window location list)" })
+vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Previous item in the quickfix list (use current window location list)" })
 
 vim.keymap.set("n","<leader>c", function () vim.cmd.e("~/.config/nvim") end)
-    
 
