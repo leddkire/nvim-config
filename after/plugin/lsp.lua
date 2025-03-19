@@ -3,8 +3,18 @@
 -- https://www.youtube.com/watch?v=LaS32vctfOY
 
 require("mason").setup({})
+
+local lsps = { "lua_ls", "terraformls" }
+local os = jit.os
+-- Add lsps that aren't haven't been configured in Windows yet
+if os ~= "Windows" then
+    lsps.insert("jsonls")
+    lsps.insert("pylsp")
+    lsps.insert("ts_ls")
+end
+
 require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls", "ts_ls", "jsonls", "pylsp", "terraformls" },
+    ensure_installed = lsps,
     handlers = {
         function(server_name)
             require('lspconfig')[server_name].setup({})
