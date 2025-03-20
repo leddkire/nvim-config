@@ -8,9 +8,9 @@ local lsps = { "lua_ls", "terraformls" }
 local os = jit.os
 -- Add lsps that aren't haven't been configured in Windows yet
 if os ~= "Windows" then
-    lsps.insert("jsonls")
-    lsps.insert("pylsp")
-    lsps.insert("ts_ls")
+    table.insert(lsps,"jsonls")
+    table.insert(lsps,"pylsp")
+    table.insert(lsps,"ts_ls")
 end
 
 require("mason-lspconfig").setup({
