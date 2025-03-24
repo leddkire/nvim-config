@@ -27,5 +27,11 @@ vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous item in the 
 vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Next item in the quickfix list (use current window location list)" })
 vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Previous item in the quickfix list (use current window location list)" })
 
-vim.keymap.set("n","<leader>c", function () vim.cmd.e("~/.config/nvim") end)
+--- :help :lcd
+vim.keymap.set("n","<leader>c",
+  function ()
+      vim.cmd.sp("~/.config/nvim")
+      vim.cmd.lcd("~/.config/nvim")
+  end
+)
 
