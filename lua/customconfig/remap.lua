@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc="Open file's directory in new window"})
 
 --- move selection up or down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -27,11 +27,13 @@ vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Previous item in the 
 vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Next item in the quickfix list (use current window location list)" })
 vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Previous item in the quickfix list (use current window location list)" })
 
---- :help :lcd
 vim.keymap.set("n","<leader>c",
   function ()
       vim.cmd.sp("~/.config/nvim")
+        --- :help :lcd
       vim.cmd.lcd("~/.config/nvim")
   end
-)
+, { desc="Open nvim config in new window+buffer and change directory for that window"})
+
+
 
