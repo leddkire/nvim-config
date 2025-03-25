@@ -4,7 +4,7 @@
 
 require("mason").setup({})
 
-local lsps = { "lua_ls", "terraformls" }
+local lsps = { "lua_ls", "terraformls", "kotlin_language_server"}
 local os = jit.os
 -- Add lsps that aren't haven't been configured in Windows yet
 if os ~= "Windows" then
@@ -58,6 +58,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- You'll find a list of language servers here:
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers.
+
+require('lspconfig').kotlin_language_server.setup({})
 require('lspconfig').gleam.setup({})
 require('lspconfig').ocamllsp.setup({})
 require('lspconfig').gdscript.setup({
