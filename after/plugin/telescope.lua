@@ -14,7 +14,10 @@ vim.keymap.set('n', '<leader>fc', builtin.colorscheme, { desc = 'Telescope list 
 vim.keymap.set('n', '<leader>fC', builtin.commands, { desc = 'Telescope list commands'})
 vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope list keymaps'})
 vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope find symbols in open document'})
-vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope find diagnostic (warning/error/etc.)'})
+vim.keymap.set('n', '<leader>fdw', builtin.diagnostics, { desc = 'Telescope find workspace diagnostic (warning/error/etc.)'})
+vim.keymap.set('n', '<leader>fdb', function ()
+   builtin.diagnostics({bufnr = 0})
+end, { desc = 'Telescope find buffer diagnostic (warning/error/etc.)'})
 
 local project_dirs={ os.getenv("PROJECT_DIRS")}
 vim.keymap.set('n', '<leader>fp', function() builtin.find_files({search_dirs=project_dirs}) end, { desc = 'Find files in the paths in PROJECT_DIRS'})
