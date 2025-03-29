@@ -27,3 +27,4 @@ vim.g.mapleader = " "
 vim.o.termguicolors = true
 vim.o.background = 'light'
 vim.cmd.colorscheme 'onedark'
+vim.o.guicursor= 'i-ci:ver30-iCursor,a:blinkwait200-blinkon100-blinkoff100'
