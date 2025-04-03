@@ -29,3 +29,7 @@ vim.o.background = 'light'
 vim.cmd.colorscheme 'onedark'
 vim.cmd.language 'en_US'
 vim.o.guicursor= 'i-ci:ver30-iCursor,a:blinkwait200-blinkon100-blinkoff100'
+vim.o.foldmethod='syntax'
+vim.o.foldlevelstart=1
+
+
