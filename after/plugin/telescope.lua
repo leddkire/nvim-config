@@ -1,3 +1,17 @@
+local telescope = require('telescope')
+telescope.setup({
+    defaults = {
+        layout_strategy = 'flex',
+        layout_config = {
+            vertical = {
+                mirror = true,
+                prompt_position = 'top'
+            },
+            flip_columns = 120
+        }
+    }
+})
+
 local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<leader>ff', builtin.find_files , { desc = 'Telescope find files'})
 vim.keymap.set('n', '<leader>fa', function ()
