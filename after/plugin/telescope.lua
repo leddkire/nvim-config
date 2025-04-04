@@ -1,5 +1,6 @@
 local builtin = require("telescope.builtin")
-vim.keymap.set('n', '<leader>ff', function ()
+vim.keymap.set('n', '<leader>ff', builtin.find_files , { desc = 'Telescope find files'})
+vim.keymap.set('n', '<leader>fa', function ()
     builtin.find_files({hidden=true})
 end, { desc = 'Telescope find files'})
 --- vim.keymap.set('n', '<leader>fs', function()
