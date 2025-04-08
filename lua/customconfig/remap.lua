@@ -6,13 +6,15 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 --- Keep cursor at beginning of line when joining lines
-vim.keymap.set("n", "J", "mzJ`z")
+-- vim.keymap.set("n", "J", "mzJ`z")
 
 --- Keep cursor in the middle while jumping / searching
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+--- I've commented these lines because it breaks mini-animate scrolling.
+--- Instead of jumping to the next match, it would sometimes stay at the current match
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz")
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz")
+-- vim.keymap.set("n", "n", "nzzzv")
+-- vim.keymap.set("n", "N", "Nzzzv")
 
 --- System clipboard yanking
 vim.keymap.set("n", "<leader>y", "\"+y")
