@@ -11,8 +11,6 @@ if os ~= "Windows" then
     table.insert(lsps,"jsonls")
     table.insert(lsps,"pylsp")
     table.insert(lsps,"ts_ls")
-else
-    table.insert(lsps,"godot-wsl-lsp")
 end
 
 require("mason-lspconfig").setup({
