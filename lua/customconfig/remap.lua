@@ -31,9 +31,17 @@ vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Previous item in 
 
 vim.keymap.set("n","<leader>c",
   function ()
-      vim.cmd.sp("~/.config/nvim")
-        --- :help :lcd
-      vim.cmd.lcd("~/.config/nvim")
+    local jit_os = jit.os
+      if jit_os ~= "Windows" then
+          vim.cmd.sp("~/.config/nvim")
+            --- :help :lcd
+          vim.cmd.lcd("~/.config/nvim")
+      else
+          local home = (os.getenv("HomeDrive") .. os.getenv("HomePath"))
+          vim.cmd.sp(home .. "\\AppData\\Local\\nvim")
+            --- :help :lcd
+          vim.cmd.lcd(home .. "\\AppData\\Local\\nvim")
+      end
   end
 , { desc="Open nvim config in new window+buffer and change directory for that window"})
 
