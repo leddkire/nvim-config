@@ -62,21 +62,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers.
 
-require('lspconfig').kotlin_language_server.setup({})
-require('lspconfig').gleam.setup({})
-require('lspconfig').ocamllsp.setup({})
+local lspconfig = require('lspconfig')
+lspconfig.kotlin_language_server.setup({})
+lspconfig.gleam.setup({})
+lspconfig.ocamllsp.setup({})
 if os ~= "Windows" then
-    require('lspconfig').gdscript.setup({
+    lspconfig.gdscript.setup({
         name="godot",
         cmd= { "godot-wsl-lsp", "--useMirroredNetworking" },
     })
 else
-    require('lspconfig').gdscript.setup({
+    lspconfig.gdscript.setup({
         name="godot",
         cmd= vim.lsp.rpc.connect("127.0.0.1","6008"),
     })
 end
-require('lspconfig').lua_ls.setup({})
+lspconfig.lua_ls.setup({})
+lspconfig.ts_ls.setup({})
 
 local cmp = require('cmp')
 

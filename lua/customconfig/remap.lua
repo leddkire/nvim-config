@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc="Open file's directory in new window"})
+vim.keymap.set("n", "<leader>pv", vim.cmd.Oil, { desc="Open file's directory in new window"})
 
 --- move selection up or down
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
