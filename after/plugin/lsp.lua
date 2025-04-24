@@ -11,6 +11,10 @@ if os ~= "Windows" then
     table.insert(lsps,"jsonls")
     table.insert(lsps,"pylsp")
     table.insert(lsps,"ts_ls")
+    table.insert(lsps,"helm_ls")
+    -- table.insert(lsps,"yamlls")
+else
+    table.insert(lsps,"godot-wsl-lsp")
 end
 
 require("mason-lspconfig").setup({
@@ -79,6 +83,10 @@ else
 end
 lspconfig.lua_ls.setup({})
 lspconfig.ts_ls.setup({})
+lspconfig.helm_ls.setup({
+    settings = {
+    }
+})
 
 local cmp = require('cmp')
 
