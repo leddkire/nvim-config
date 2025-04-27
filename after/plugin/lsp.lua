@@ -13,8 +13,6 @@ if os ~= "Windows" then
     table.insert(lsps,"ts_ls")
     table.insert(lsps,"helm_ls")
     -- table.insert(lsps,"yamlls")
-else
-    table.insert(lsps,"godot-wsl-lsp")
 end
 
 require("mason-lspconfig").setup({
