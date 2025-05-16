@@ -33,6 +33,7 @@ vim.keymap.set('n', '<leader>fc', builtin.colorscheme, { desc = 'Telescope list 
 vim.keymap.set('n', '<leader>fC', builtin.commands, { desc = 'Telescope list commands'})
 vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope list keymaps'})
 vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope find symbols in open document'})
+vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = 'Telescope find symbols in workspace'})
 vim.keymap.set('n', '<leader>fdw', builtin.diagnostics, { desc = 'Telescope find workspace diagnostic (warning/error/etc.)'})
 vim.keymap.set('n', '<leader>fdb', function ()
    builtin.diagnostics({bufnr = 0})
