@@ -44,6 +44,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(event)
         local opts = { buffer = event.buf }
 
+        local bufnr = event.buf
+        local client_id = event.data.client_id
+
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
         vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
         vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
@@ -56,7 +59,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
         vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
         vim.keymap.set('v', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-        vim.keymap.set('n', '<F5>', '<cmd>lua vim.lsp.codelens.display()<cr>', opts)
+        vim.keymap.set('n', '<F5>', function ()
+            vim.lsp.codelens.refresh({bufnr=bufnr})
+            vim.lsp.codelens.display(bufnr, client_id)
+        end, opts)
     end,
 })
 
