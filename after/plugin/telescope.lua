@@ -16,7 +16,7 @@ local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<leader>ff', builtin.find_files , { desc = 'Telescope find files'})
 vim.keymap.set('n', '<leader>fa', function ()
     builtin.find_files({hidden=true})
-end, { desc = 'Telescope find files'})
+end, { desc = 'Telescope find files (including hidden)'})
 --- vim.keymap.set('n', '<leader>fs', function()
 	--- builtin.grep_string({ search = vim.fn.input("Grep > ") });
 --- end)
@@ -32,6 +32,7 @@ vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope list old
 vim.keymap.set('n', '<leader>fc', builtin.colorscheme, { desc = 'Telescope list colorschemes'})
 vim.keymap.set('n', '<leader>fC', builtin.commands, { desc = 'Telescope list commands'})
 vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope list keymaps'})
+vim.keymap.set('n', '<leader>fvo', builtin.vim_options, { desc = 'Telescope vim options'})
 vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope find symbols in open document'})
 vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = 'Telescope find symbols in workspace'})
 vim.keymap.set('n', '<leader>fdw', builtin.diagnostics, { desc = 'Telescope find workspace diagnostic (warning/error/etc.)'})
@@ -40,5 +41,8 @@ vim.keymap.set('n', '<leader>fdb', function ()
 end, { desc = 'Telescope find buffer diagnostic (warning/error/etc.)'})
 
 local project_dirs={ os.getenv("PROJECT_DIRS")}
-vim.keymap.set('n', '<leader>fp', function() builtin.find_files({search_dirs=project_dirs}) end, { desc = 'Find files in the paths in PROJECT_DIRS'})
+vim.keymap.set('n', '<leader>fp', function() builtin.find_files({search_dirs=project_dirs}) end, { desc = 'Telescope find files in the paths in PROJECT_DIRS'})
+
+vim.keymap.set('n', '<leader>f<leader>', function() builtin.resume() end, { desc = 'Telescope resume last search'})
+
 
