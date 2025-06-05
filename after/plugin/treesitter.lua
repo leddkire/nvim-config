@@ -1,4 +1,4 @@
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
     build=":TSUpdate",
     event= {"BufReadPre", "BufNewFile" },
     ensure_installed = {"vimdoc", "javascript", "typescript", "lua", "gdscript", "c", "nginx" },
@@ -19,6 +19,28 @@ require'nvim-treesitter.configs'.setup {
             node_incremental = "<M-i>",
             scope_incremental = false,
             node_decremental = "<M-u>",
+        },
+    },
+
+    move = {
+        enable=true,
+        set_jumps=true,
+
+    },
+    textobjects = {
+        select = {
+            enable=true,
+            lookahead=true,
+            keymaps = {
+                ["af"] = "@call.outer",
+                ["if"] = "@call.inner",
+                ["am"] = "@function.inner",
+                ["im"] = "@function.inner",
+                ["al"] = "@loop.outer",
+                ["il"] = "@loop.inner",
+                ["aa"] = "@parameter.inner",
+                ["ia"] = "@parameter.inner",
+            }
         },
     },
 }
