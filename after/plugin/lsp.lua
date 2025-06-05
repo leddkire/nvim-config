@@ -11,6 +11,7 @@ if os ~= "Windows" then
     table.insert(lsps,"jsonls")
     table.insert(lsps,"ts_ls")
     table.insert(lsps,"helm_ls")
+    table.insert(lsps,"bashls")
     -- table.insert(lsps,"yamlls")
 end
 
