@@ -1,3 +1,5 @@
+vim.g.python3_host_prog = '/usr/local/var/pyenv/versions/py3nvim_3_7_17/bin/python'
+vim.g.python_host_prog = '/usr/local/var/pyenv/versions/py3nvim_3_7_17/bin/python'
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.schedule(function ()

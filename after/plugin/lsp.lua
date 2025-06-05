@@ -4,12 +4,11 @@
 
 require("mason").setup({})
 
-local lsps = { "lua_ls", "terraformls", "kotlin_language_server"}
+local lsps = { "lua_ls", "terraformls", "kotlin_language_server" }
 local os = jit.os
 -- Add lsps that aren't haven't been configured in Windows yet
 if os ~= "Windows" then
     table.insert(lsps,"jsonls")
-    table.insert(lsps,"pylsp")
     table.insert(lsps,"ts_ls")
     table.insert(lsps,"helm_ls")
     -- table.insert(lsps,"yamlls")
@@ -31,10 +30,12 @@ vim.opt.signcolumn = 'yes'
 -- Add cmp_nvim_lsp capabilities settings to lspconfig
 -- This should be executed before you configure any language server
 local lspconfig_defaults = require('lspconfig').util.default_config
+local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 lspconfig_defaults.capabilities = vim.tbl_deep_extend(
     'force',
     lspconfig_defaults.capabilities,
-    require('cmp_nvim_lsp').default_capabilities()
+    cmp_capabilities
 )
 
 -- This is where you enable features that only work
