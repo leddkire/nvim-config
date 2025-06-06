@@ -89,16 +89,15 @@ else
 end
 lspconfig.lua_ls.setup({})
 lspconfig.ts_ls.setup({})
-lspconfig.helm_ls.setup({
-    settings = {
-    }
-})
+lspconfig.helm_ls.setup({})
 
 local cmp = require('cmp')
 
 cmp.setup({
     sources = {
         { name = 'nvim_lsp' },
+        { name = 'buffer' },
+        { name = 'path' },
     },
     snippet = {
         expand = function(args)
@@ -107,11 +106,28 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-n>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-p>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})
+cmp.setup.cmdline(':', {
+
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    }),
+    matching = { disallow_symbol_nonprefix_matching = false }
 })
 
 vim.keymap.set({ 'i', 's' }, '<Tab>', function()
