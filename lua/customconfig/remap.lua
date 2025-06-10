@@ -45,5 +45,7 @@ vim.keymap.set("n","<leader>c",
   end
 , { desc="Open nvim config in new window+buffer and change directory for that window"})
 
-
+vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>")
+vim.keymap.set("n", "<leader>x", ":.lua<CR>")
+vim.keymap.set("v", "<leader>x", ":lua<CR>")
 
