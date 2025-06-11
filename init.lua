@@ -58,7 +58,7 @@ vim.o.splitbelow = true
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
 -- vim.o.list = true
--- vim.opt.listchars = { tab = 'È ', trail = 'á', nbsp = '?' }
+-- vim.opt.listchars = { tab = '->', trail = '+', nbsp = '?' }
 
 vim.o.inccommand = 'split'
 
