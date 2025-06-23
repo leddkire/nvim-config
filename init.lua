@@ -8,7 +8,6 @@ end)
 
 require("customconfig")
 require("config.lazy")
-require("project_config")
 
 --- vim.opt.statusline ="%{FugitiveStatusline()}"
 
