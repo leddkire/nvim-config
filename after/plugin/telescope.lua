@@ -7,7 +7,9 @@ telescope.setup({
                 mirror = true,
                 prompt_position = 'top'
             },
-            flip_columns = 120
+            flex = {
+                flip_columns = 120
+            }
         }
     }
 })
