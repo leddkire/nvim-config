@@ -44,6 +44,7 @@ local get_commands = function()
                     local data = {}
                     data.scripts = scripts
                     data.file_name = result.file_name
+                    data.application_name = json.name
                     notify_read_finished.send(data)
                 end)
             end
@@ -59,10 +60,14 @@ local get_commands = function()
             print(vim.inspect(received))
             for idx,v in pairs(received.scripts) do
                 print(idx, v)
+                -- TODO: Create command field which concatenates the script_name with the pnpm command
+                -- Also detect the cwd directory and switch to the selected commands package.json directory before running
+                -- Later on it will detect the correct package manager 
                 local script_data = {
                     file_name = received.file_name,
                     script_name = idx,
                     script_contents = v,
+                    application_name = received.application_name
                 }
                 print("inserting data: ", vim.inspect(script_data))
                 table.insert(data, script_data)
@@ -85,24 +90,24 @@ local commands_picker = function(opts, commands)
                 print(vim.inspect(entry))
                 return {
                     value = entry,
-                    display = entry.script_name .. ": " .. entry.file_name,
-                    ordinal = entry.script_name .. ": " .. entry.file_name,
+                    display = entry.application_name .. ": " .. entry.script_name .. ": " .. entry.file_name,
+                    ordinal = entry.application_name .. ": " .. entry.script_name,
                 }
             end
         },
-
         sorter = conf.generic_sorter(opts),
         attach_mappings = function(prompt_bufnr, map)
           actions.select_default:replace(function()
             actions.close(prompt_bufnr)
             local selection = action_state.get_selected_entry()
-            vim.api.nvim_put({ selection.value[1] }, "", false, true)
+            print("Selection: ", vim.inspect(selection))
+            -- Send command to terminal and execute it
+            vim.api.nvim_put({ "pnpm " .. selection.value.script_name }, "", false, true)
           end)
           return true
         end,
     }):find()
 end
-
 local themes = require("telescope.themes")
 local async_get_commands = function (opts)
     local theme_opts = themes.get_dropdown(opts)
@@ -113,6 +118,7 @@ local async_get_commands = function (opts)
     end)
 end
 
+async_get_commands({})
 return function(opts)
     async_get_commands(opts)
 end
