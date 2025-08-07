@@ -8,10 +8,11 @@ local async = require "plenary.async"
 local control = require "plenary.async.control"
 local file = require "custom_telescope_pickers.package_json_actions.file"
 
-local notify_read_finished, await_extract_script  = control.channel.mpsc()
 local notify_get_commands_finished, await_get_commands = control.channel.oneshot()
 
 local get_commands = function()
+    notify_get_commands_finished, await_get_commands = control.channel.oneshot()
+    local notify_read_finished, await_extract_script  = control.channel.mpsc()
     local find_package_json = io.popen("find . -name package.json -not -path '*/node_modules/*'")
     local files = {}
     --print("find_package_json:", find_package_json)
@@ -24,9 +25,6 @@ local get_commands = function()
         print("Failed to find package.json files")
     end
 
-
-    --TODO: data can't be accumulated in this async context
-    -- figure out how to accumulate the data for the picker
     local file_count = table.getn(files)
     if(file_count ~= 0) then
         async.run(function ()
@@ -56,7 +54,7 @@ local get_commands = function()
 
     local data = {}
     async.run(function ()
-        for i=1,file_count do
+        for _=1,file_count do
             local received = await_extract_script.recv()
             print(vim.inspect(received))
             for idx,v in pairs(received.scripts) do
@@ -77,7 +75,7 @@ local get_commands = function()
     end)
 end
 
-local colors = function(opts, commands)
+local commands_picker = function(opts, commands)
     opts = opts or {}
     pickers.new(opts, {
         prompt_title = "package.json actions",
@@ -106,11 +104,15 @@ local colors = function(opts, commands)
 end
 
 local themes = require("telescope.themes")
--- async.run(function ()
---    get_commands()
---    local data = await_get_commands()
---    vim.schedule(function () colors({}, data) end)
--- end)
---TODO: return the function here with the theme
+local async_get_commands = function (opts)
+    local theme_opts = themes.get_dropdown(opts)
+    async.run(function ()
+       get_commands()
+       local data = await_get_commands()
+       vim.schedule(function () commands_picker(theme_opts, data) end)
+    end)
+end
+
 return function(opts)
+    async_get_commands(opts)
 end
