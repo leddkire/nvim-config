@@ -1,6 +1,4 @@
 local async = require "plenary.async"
-local doneOpenFile, waitOpenFile = async.control.channel.oneshot()
-
 local get_file_contents_async = function(path)
     local err, fd = async.uv.fs_open(path, "r", 438)
     assert(not err, err)
@@ -17,19 +15,11 @@ local get_file_contents_async = function(path)
     return data
 end
 
-
 -- For testing
--- print("Running async function")
 -- async.run(function()
---     local data = get_file_contents_async("./init.lua")
---     doneOpenFile(data)
+--     local data = get_file_contents("./init.lua")
+--     print(data)
 -- end)
---
--- async.run(function()
---     local fileContent = waitOpenFile()
---     print(fileContent)
--- end)
-
 local file = {}
 file['get_file_contents_async'] = get_file_contents_async
 return file
