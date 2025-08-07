@@ -22,7 +22,7 @@ local get_commands = function()
         end
         find_package_json:close()
     else
-        print("Failed to find package.json files")
+        --print("Failed to find package.json files")
     end
 
     local file_count = table.getn(files)
@@ -50,16 +50,16 @@ local get_commands = function()
             end
         end)
     else
-        print("No package.json files found")
+        --print("No package.json files found")
     end
 
     local data = {}
     async.run(function ()
         for _=1,file_count do
             local received = await_extract_script.recv()
-            print(vim.inspect(received))
+            --print(vim.inspect(received))
             for idx,v in pairs(received.scripts) do
-                print(idx, v)
+                --print(idx, v)
                 -- TODO: Create command field which concatenates the script_name with the pnpm command
                 -- Also detect the cwd directory and switch to the selected commands package.json directory before running
                 -- Later on it will detect the correct package manager 
@@ -69,13 +69,13 @@ local get_commands = function()
                     script_contents = v,
                     application_name = received.application_name
                 }
-                print("inserting data: ", vim.inspect(script_data))
+                --print("inserting data: ", vim.inspect(script_data))
                 table.insert(data, script_data)
             end
-            print("received data: ", vim.inspect(data))
+            --print("received data: ", vim.inspect(data))
         end
     end, function ()
-        print("get_commands data: ", vim.inspect(data))
+        --print("get_commands data: ", vim.inspect(data))
         notify_get_commands_finished(data)
     end)
 end
@@ -87,7 +87,7 @@ local commands_picker = function(opts, commands)
         finder = finders.new_table {
             results = commands,
             entry_maker = function(entry)
-                print(vim.inspect(entry))
+                --print(vim.inspect(entry))
                 return {
                     value = entry,
                     display = entry.application_name .. ": " .. entry.script_name .. ": " .. entry.file_name,
@@ -102,7 +102,12 @@ local commands_picker = function(opts, commands)
             local selection = action_state.get_selected_entry()
             print("Selection: ", vim.inspect(selection))
             -- Send command to terminal and execute it
-            vim.api.nvim_put({ "pnpm " .. selection.value.script_name }, "", false, true)
+            -- vim.api.nvim_put({ "pnpm " .. selection.value.script_name }, "", false, true)
+            vim.cmd.vs()
+            local dir = vim.fs.dirname(selection.value.file_name)
+            local script = selection.value.script_name
+            vim.cmd.terminal("pnpm --dir " .. dir .. " " .. script)
+            vim.cmd.normal("i")
           end)
           return true
         end,
@@ -118,7 +123,9 @@ local async_get_commands = function (opts)
     end)
 end
 
-async_get_commands({})
+--async_get_commands({})
+--TODO: Load async once and store in memory
+--TODO: Load again when cwd changes
 return function(opts)
     async_get_commands(opts)
 end
