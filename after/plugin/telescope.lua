@@ -44,6 +44,9 @@ vim.keymap.set('n', '<leader>fdb', function ()
    builtin.diagnostics({bufnr = 0})
 end, { desc = 'Telescope find buffer diagnostic (warning/error/etc.)'})
 
+local extensions = telescope.extensions
+vim.keymap.set('n', '<leader>xc', extensions.package_json_actions.package_json_actions, { desc = 'Telescope find package.json commands and executes the selected one' })
+
 local project_dirs={ os.getenv("PROJECT_DIRS")}
 vim.keymap.set('n', '<leader>fp', function() builtin.find_files({search_dirs=project_dirs}) end, { desc = 'Telescope find files in the paths in PROJECT_DIRS'})
 

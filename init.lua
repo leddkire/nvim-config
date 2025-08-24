@@ -9,7 +9,11 @@ end)
 require("customconfig")
 require("config.lazy")
 
---- vim.opt.statusline ="%{FugitiveStatusline()}"
+-- Example for calling a lua function using vimscript in the statusline
+-- function testLuaToVim()
+--     return "hello world"
+-- end
+-- vim.opt.statusline = "%{v:lua.testLuaToVim()}"
 
 vim.o.tabstop=8
 
