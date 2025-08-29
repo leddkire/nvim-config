@@ -49,3 +49,18 @@ vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>")
 vim.keymap.set("n", "<leader>x", ":.lua<CR>")
 vim.keymap.set("v", "<leader>x", ":lua<CR>")
 
+local buf = vim.api.nvim_create_buf(false, true)
+local window
+vim.keymap.set('n', '<leader><F1>', function ()
+    --TODO: Move this to a module so it can be used in other cases
+    local messages = vim.split(vim.fn.execute("messages", "silent"), "\n")
+    if(buf == nil) then
+        buf = vim.api.nvim_create_buf(false, true)
+    end
+    vim.api.nvim_buf_set_lines(buf, 0,-1, false, messages)
+    if(window ~= nil and vim.api.nvim_win_is_valid(window)) then
+        vim.api.nvim_win_close(window, false)
+    end
+    window = vim.api.nvim_open_win(buf, true, { split='below' })
+    vim.cmd.normal('G')
+end, {desc = "Opens a window the contents of :messages"})
