@@ -1,3 +1,4 @@
+local os = jit.os
 vim.g.python3_host_prog = '/usr/local/var/pyenv/versions/py3nvim_3_7_17/bin/python'
 vim.g.python_host_prog = '/usr/local/var/pyenv/versions/py3nvim_3_7_17/bin/python'
 vim.g.mapleader = " "
@@ -43,7 +44,11 @@ vim.o.smartcase = true
 vim.o.termguicolors = true
 vim.o.background = 'light'
 vim.cmd.colorscheme 'onedark'
-vim.cmd.language 'en_US'
+if (os == "Linux") then
+    vim.cmd.language 'en_US.UTF-8'
+else
+    vim.cmd.language 'en_US'
+end
 vim.o.guicursor= 'i-ci:ver30-iCursor,a:blinkwait200-blinkon100-blinkoff100'
 vim.o.foldmethod='expr'
 vim.o.foldlevel = 20
