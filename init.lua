@@ -43,7 +43,8 @@ vim.o.smartcase = true
 
 vim.o.termguicolors = true
 vim.o.background = 'light'
-vim.cmd.colorscheme 'onedark'
+vim.cmd.colorscheme 'onenord'
+
 if (os == "Linux") then
     vim.cmd.language 'en_US.UTF-8'
 else
