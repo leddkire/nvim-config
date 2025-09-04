@@ -1,19 +1,13 @@
-local co = require("lua.coroutine-utils.init")
 local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
-
-vim.cmd.messages("clear")
-
-local function vim_system_cb(cb, cmd, opts)
-    vim.system(cmd, opts, cb)
-end
-local vim_system_co = co.cb_to_co(vim_system_cb)
+local fs = require "lua.coroutine-utils.file_co"
+local vim_co = require "lua.coroutine-utils.vim_co"
 
 local function find_package_json_actions_co()
-    local result = vim_system_co({'find', '.', '-name', 'package.json', '-not', '-path', '*/node_modules/*'}, { text = true })
+    local result = vim_co.vim_system_co({'find', '.', '-name', 'package.json', '-not', '-path', '*/node_modules/*'}, { text = true })
     return result
 end
 
@@ -24,69 +18,6 @@ local function split(input, pattern)
     end
     return output
 end
-
-local function fs_open_cb(cb, path, flags, mode)
-    return vim.uv.fs_open(path, flags, mode, cb)
-end
-local fs_open_co = co.cb_to_co(fs_open_cb)
-
-local function fs_close_cb(cb, fd)
-    return vim.uv.fs_close(fd, cb)
-end
-local fs_close_co = co.cb_to_co(fs_close_cb)
-
-local function fs_read_cb(cb, fd, size, offset)
-    return vim.uv.fs_read(fd, size, offset, cb)
-end
-local fs_read_co = co.cb_to_co(fs_read_cb)
-
-local function read_file_co(path, signal_finished)
-    --print(path)
-    local err, fd = fs_open_co(path, "r", 666)
-    if(err ~= nil) then
-        print("error: " .. err)
-    end
-    --print("file descriptor: " .. fd)
-    local data = ""
-    local read_error, current_chunk = fs_read_co(fd, 1000, nil)
-    if(err ~= nil) then
-        print(read_error)
-    end
-    while current_chunk ~= "" do
-        data = data .. current_chunk
-        read_error, current_chunk = fs_read_co(fd, 1000, nil)
-        if(err ~= nil) then
-            print(read_error)
-        end
-    end
-    fs_close_co(fd)
-    --print("closed " .. fd .. ": " .. path)
-    --print("data: " .. data)
-    signal_finished(data)
-end
-
--- transform: function that transforms the file contents before returning it
-local function find_all_cb(cb, files, transform)
-    local active_threads = 0
-    local all_data = {}
-
-   for _, file in ipairs(files) do
-        local thread = coroutine.create(read_file_co)
-        local signal_finished = function (data)
-            table.insert(all_data, transform(file, data))
-            active_threads = active_threads - 1
-            if(active_threads == 0) then
-                --print("Finished all threads!")
-                --print(vim.inspect(threads))
-                cb(all_data)
-            end
-        end
-        coroutine.resume(thread, file, signal_finished)
-        active_threads = active_threads + 1
-    end
-    --print("Created all threads: " .. vim.inspect(threads))
-end
-local find_all_co = co.cb_to_co(find_all_cb)
 
 local function find_co()
     local result = find_package_json_actions_co()
@@ -106,7 +37,7 @@ local function find_co()
         return data
     end
 
-    local data = find_all_co(files, transform)
+    local data = fs.read_all_co(files, transform)
     local output = {}
     for _, value in pairs(data) do
         --print("checking: ", vim.inspect(value))
