@@ -78,7 +78,7 @@ lspconfig.ocamllsp.setup({})
 if os ~= "Windows" then
     lspconfig.gdscript.setup({
         name="godot",
-        cmd= { "godot-wsl-lsp", "--useMirroredNetworking" },
+        cmd= vim.lsp.rpc.connect("127.0.0.1", 6005)
     })
 else
     lspconfig.gdscript.setup({
