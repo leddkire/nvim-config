@@ -7,7 +7,7 @@ local fs = require "lua.coroutine-utils.file_co"
 local vim_co = require "lua.coroutine-utils.vim_co"
 
 local function find_package_json_actions_co()
-    local result = vim_co.vim_system_co({'find', '.', '-name', 'package.json', '-not', '-path', '*/node_modules/*'}, { text = true })
+    local result = vim_co.vim_system_co({'fd', '"package\\.json"', '--type file', '--exclude node_modules'}, { text = true })
     return result
 end
 
