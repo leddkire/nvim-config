@@ -9,6 +9,7 @@ end)
 
 require("customconfig")
 require("config.lazy")
+require("godot")
 
 -- Example for calling a lua function using vimscript in the statusline
 -- function testLuaToVim()
@@ -16,9 +17,8 @@ require("config.lazy")
 -- end
 -- vim.opt.statusline = "%{v:lua.testLuaToVim()}"
 
-vim.o.tabstop=8
-
-vim.o.softtabstop=8
+vim.o.tabstop=4
+vim.o.softtabstop=4
 vim.o.shiftwidth=4
 vim.o.smarttab=true
 vim.o.expandtab=true
