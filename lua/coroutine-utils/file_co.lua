@@ -1,4 +1,4 @@
-local co = require("lua.coroutine-utils.init")
+local co = require("coroutine-utils.init")
 
 local M = {}
 
