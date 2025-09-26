@@ -12,9 +12,11 @@ local copilot_enabled = false
 vim.keymap.set({'n', 'i'}, '<F9>', function ()
     if copilot_enabled then
         vim.cmd.Copilot("disable")
+        vim.notify("Copilot disabled")
         copilot_enabled = false
     else
         vim.cmd.Copilot("enable")
+        vim.notify("Copilot enabled")
         copilot_enabled = true
     end
 end)
