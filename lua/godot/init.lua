@@ -31,10 +31,9 @@ local find_project_root = function ()
     return project_root
 end
 
-local run_tests_in_terminal = function (opts)
-    local cmd = {"godot", "--headless", "-d", "-s", "--path", opts.project_root, "addons/gut/gut_cmdln.gd"}
+local run_in_terminal = function (opts)
     vim.cmd.vs()
-    vim.cmd.terminal(cmd)
+    vim.cmd.terminal(opts.cmd)
     vim.cmd.normal("i")
 end
 
@@ -44,16 +43,18 @@ M.run_tests = function ()
         return
     end
 
-    run_tests_in_terminal({ project_root = project_root, test_path = project_root })
+    local cmd = {"godot", "--headless", "-d", "-s", "--path", project_root, "addons/gut/gut_cmdln.gd", "-gexit", "-gdir", project_root}
+    run_in_terminal({ cmd = cmd, project_root = project_root, test_path = project_root })
 end
 
-M.run_test_suite = function (path)
+M.run_test_file = function (path)
     local project_root = find_project_root()
     if(project_root == nil) then
         return
     end
 
-    run_tests_in_terminal({ project_root = project_root, test_path = path })
+    local cmd = {"godot", "--headless", "-s", "--path", project_root, "addons/gut/gut_cmdln.gd", "-gtest="..path, "-gexit"}
+    run_in_terminal({ cmd = cmd })
 end
 
 vim.keymap.set("n", "<leader>1", function () M.run_main_scene() end, {desc = "Run godot main scene" })
@@ -70,7 +71,7 @@ vim.keymap.set("n", "<leader>q",
 vim.keymap.set("n", "<leader>w",
     function ()
         local test_path = vim.api.nvim_buf_get_name(0)
-        M.run_test_suite(test_path)
+        M.run_test_file(test_path)
     end,
     {desc = "Run tests in current file"}
 )
