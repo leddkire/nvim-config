@@ -23,23 +23,37 @@ M.run_scene = function(path)
     end
 end
 
-M.run_tests = function ()
+local find_project_root = function ()
     local project_root = vim.fs.root(0, { "project.godot" })
     if(project_root == nil) then
-        print("No project.godot file found, can't run tests")
-    else
-        local test_script = vim.fs.find({'runtest.sh'}, { type = 'file' , path = project_root .. '/addons/gdUnit4/'})
-        P(test_script)
-        if(#test_script == 0) then
-            print("no test script found, ensure that gdunit extension is installed")
-        else
-            print("running ", test_script[1])
-            local cmd ={test_script[1], "--ignoreHeadlessMode", "--headless", "--continue", "-a", project_root}
-            vim.cmd.vs()
-            vim.cmd.terminal(cmd)
-            vim.cmd.normal("i")
-        end
+        print("No project.godot file found")
     end
+    return project_root
+end
+
+local run_tests_in_terminal = function (opts)
+    local cmd = {"godot", "--headless", "-d", "-s", "--path", opts.project_root, "addons/gut/gut_cmdln.gd"}
+    vim.cmd.vs()
+    vim.cmd.terminal(cmd)
+    vim.cmd.normal("i")
+end
+
+M.run_tests = function ()
+    local project_root = find_project_root()
+    if(project_root == nil) then
+        return
+    end
+
+    run_tests_in_terminal({ project_root = project_root, test_path = project_root })
+end
+
+M.run_test_suite = function (path)
+    local project_root = find_project_root()
+    if(project_root == nil) then
+        return
+    end
+
+    run_tests_in_terminal({ project_root = project_root, test_path = path })
 end
 
 vim.keymap.set("n", "<leader>1", function () M.run_main_scene() end, {desc = "Run godot main scene" })
@@ -54,11 +68,17 @@ vim.keymap.set("n", "<leader>q",
     {desc = "Run all unit tests"}
 )
 vim.keymap.set("n", "<leader>w",
-    function () print("not implemented") end,
+    function ()
+        local test_path = vim.api.nvim_buf_get_name(0)
+        M.run_test_suite(test_path)
+    end,
     {desc = "Run tests in current file"}
 )
 vim.keymap.set("n", "<leader>e",
-    function () print("not implemented") end,
+    function ()
+        local test_path = vim.api.nvim_buf_get_name(0)
+
+    end,
     {desc = "Run test / tests under cursor scope"}
 )
 
