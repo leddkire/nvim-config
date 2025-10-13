@@ -93,20 +93,21 @@ lspconfig.helm_ls.setup({})
 local cmp = require('cmp')
 
 cmp.setup({
-    sources = {
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'buffer' },
-    },
+    }),
     snippet = {
         expand = function(args)
             -- You need Neovim v0.10 to use vim.snippet
             vim.snippet.expand(args.body)
         end,
     },
+
     mapping = cmp.mapping.preset.insert({
-        ['<C-n>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-p>'] = cmp.mapping.scroll_docs(4),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
@@ -118,6 +119,7 @@ cmp.setup.cmdline({ '/', '?' }, {
         { name = 'buffer' }
     }
 })
+
 cmp.setup.cmdline(':', {
 
     mapping = cmp.mapping.preset.cmdline(),
