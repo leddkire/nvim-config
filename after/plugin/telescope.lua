@@ -1,6 +1,17 @@
 local telescope = require('telescope')
+local actions = require('telescope.actions')
 telescope.setup({
     defaults = {
+        mappings = {
+            i = {
+                ["<F1>"] = actions.smart_send_to_qflist + actions.open_qflist,
+                ["<F2>"] = actions.smart_add_to_qflist + actions.open_qflist,
+            },
+            n = {
+                ["<F1>"] = actions.smart_send_to_qflist + actions.open_qflist,
+                ["<F2>"] = actions.smart_add_to_qflist + actions.open_qflist,
+            }
+        },
         layout_strategy = 'flex',
         layout_config = {
             vertical = {
