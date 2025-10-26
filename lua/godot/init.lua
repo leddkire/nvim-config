@@ -66,21 +66,21 @@ end
 
 vim.keymap.set("n", "<leader>q",
     function () M.run_tests() end,
-    {desc = "Run all unit tests"}
+    {desc = "Godot: Run all unit tests"}
 )
 vim.keymap.set("n", "<leader>w",
     function ()
         local test_path = vim.api.nvim_buf_get_name(0)
         M.run_test_file(test_path)
     end,
-    {desc = "Run tests in current file"}
+    {desc = "Godot: Run tests in current file"}
 )
 vim.keymap.set("n", "<leader>e",
     function ()
         local test_path = vim.api.nvim_buf_get_name(0)
 
     end,
-    {desc = "Run test / tests under cursor scope"}
+    {desc = "Godot: Run test / tests under cursor scope"}
 )
 
 return M
