@@ -90,6 +90,17 @@ lspconfig.lua_ls.setup({})
 lspconfig.ts_ls.setup({})
 lspconfig.helm_ls.setup({})
 
+-- begin Terraform config
+lspconfig.terraformls.setup({})
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = {"*.tf", "*.tfvars"},
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
+-- end Terraform config
+
+
 local cmp = require('cmp')
 
 cmp.setup({
