@@ -10,7 +10,7 @@ local copilot_enabled = false
 -- Then require the module here and add a 'GH' at the end of the statusline when
 -- copilot is enabled.
 -- TODO: Integrate with telescope
-vim.keymap.set({'n', 'i'}, '<F9>', function ()
+vim.keymap.set({'n', 'i', 'v', 'x'}, '<F9>', function ()
     if copilot_enabled then
         vim.cmd.Copilot("disable")
         vim.notify("Copilot disabled")

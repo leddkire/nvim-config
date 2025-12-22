@@ -7,3 +7,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     vim.opt_local.conceallevel = 0
   end,
 })
+
+vim.keymap.set({'n', 'i', 'v', 'x'}, '<F10>', function ()
+    vim.cmd.CopilotChatToggle()
+end)
