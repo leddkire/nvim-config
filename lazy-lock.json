@@ -6,7 +6,7 @@
   "cmp-path": { "branch": "main", "commit": "c6635aae33a50d6010bf1aa756ac2398a2d54c32" },
   "conform.nvim": { "branch": "master", "commit": "2b2b30260203af3b93a7470ac6c8457ddd6e32d9" },
   "copilot.vim": { "branch": "release", "commit": "f3d66c148aa60ad04c0a21d3e0a776459de09eb2" },
-  "csvview.nvim": { "branch": "main", "commit": "2a2631ed90a9e6b038a6e3047b6cf332d5b45ff3" },
+  "csvview.nvim": { "branch": "main", "commit": "da4106db5c44bfdccd0f76142c0f2740bcae8e5c" },
   "harpoon": { "branch": "harpoon2", "commit": "ed1f853847ffd04b2b61c314865665e1dadf22c7" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "marks.nvim": { "branch": "master", "commit": "f353e8c08c50f39e99a9ed474172df7eddd89b72" },
