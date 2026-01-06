@@ -80,6 +80,7 @@ if os ~= "Windows" then
         name="godot",
         cmd= vim.lsp.rpc.connect("127.0.0.1", 6005)
     })
+    lspconfig.qmlls.setup {}
 else
     lspconfig.gdscript.setup({
         name="godot",
@@ -108,6 +109,7 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'buffer' },
+        { name = 'buffer-lines' },
     }),
     snippet = {
         expand = function(args)
@@ -127,7 +129,8 @@ cmp.setup({
 cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
-        { name = 'buffer' }
+        { name = 'buffer' },
+        { name = 'buffer-lines' },
     }
 })
 
