@@ -1,3 +1,21 @@
+-- TODO:
+--   - Mapping to select active bookmark group
+--   - Mapping to select files within bookmark group (up to 4, like in harpoon)
+--   - Mapping to invoke :BookmarksQFList <active tab group>
+--   - Mapping to clear current active bookmark group
+--     - If it's not the only group with bookmarks, activate the next one
+--   - Create plugin that integrates with telescope
+--     - Add file under cursor to active bookmark group
+--     - Add file under cursor to specific bookmark group
+--     - Add file under cursor to new bookmark group and activate it
+--     - Show which bookmark group the file belongs to
+--     - Remove the file from the assigned bookmark
+--   - Create plugin that integrates with oil
+--     - Add file under cursor to active bookmark group
+--     - Add file under cursor to specific bookmark group
+--     - Add file under cursor to new bookmark group and activate it
+--     - Show which bookmark group the file belongs to
+--     - Remove the file from the assigned bookmark
 require'marks'.setup {
   -- whether to map keybinds or not. default true
   default_mappings = true,
