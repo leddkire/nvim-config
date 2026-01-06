@@ -36,7 +36,7 @@ end, { desc = 'Telescope find files (including hidden)'})
 	--- builtin.grep_string({ search = vim.fn.input("Grep > ") });
 --- end)
 vim.keymap.set('n', '<leader>gdb', builtin.git_bcommits, {desc= 'Telescope buffer commits'})
-vim.keymap.set('n', '<leader>fw', builtin.grep_string, {desc= 'Telescope grep current word'})
+vim.keymap.set({'n', 'v'}, '<leader>fw', builtin.grep_string, {desc= 'Telescope grep current word'})
 vim.keymap.set('n', '<leader>fr', builtin.git_files, { desc = 'Telescope git files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.current_buffer_fuzzy_find, { desc = 'Telescope search current buffer' })
@@ -62,5 +62,4 @@ local project_dirs={ os.getenv("PROJECT_DIRS")}
 vim.keymap.set('n', '<leader>fp', function() builtin.find_files({search_dirs=project_dirs}) end, { desc = 'Telescope find files in the paths in PROJECT_DIRS'})
 
 vim.keymap.set('n', '<leader>f<leader>', function() builtin.resume() end, { desc = 'Telescope resume last search'})
-
 
