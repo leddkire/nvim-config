@@ -57,12 +57,15 @@ M.run_test_file = function (path)
     run_in_terminal({ cmd = cmd })
 end
 
-vim.keymap.set("n", "<leader>1", function () M.run_main_scene() end, {desc = "Run godot main scene" })
+-- Ideas
+-- Run last scene
+-- Fuzzy find scene and run it
+vim.keymap.set("n", "<leader>1", function () M.run_main_scene() end, {desc = "Godot: Run main scene" })
 vim.keymap.set("n", "<leader>2", function ()
     local scene_path = vim.api.nvim_buf_get_name(0)
     M.run_scene(scene_path)
 end
-, {desc = "Run a specific godot scene" })
+, {desc = "Godot: Run a specific scene" })
 
 vim.keymap.set("n", "<leader>q",
     function () M.run_tests() end,
