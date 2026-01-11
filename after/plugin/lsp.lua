@@ -26,6 +26,202 @@ vim.opt.signcolumn = 'yes'
 -- Add cmp_nvim_lsp capabilities settings to lspconfig
 -- This should be executed before you configure any language server
 local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+local default_lsp_capabilities = {
+      autostart = true,
+      capabilities = {
+        general = {
+          positionEncodings = { "utf-8", "utf-16", "utf-32" }
+        },
+        textDocument = {
+          callHierarchy = {
+            dynamicRegistration = false
+          },
+          codeAction = {
+            codeActionLiteralSupport = {
+              codeActionKind = {
+                valueSet = { "", "quickfix", "refactor", "refactor.extract", "refactor.inline", "refactor.rewrite", "source", "source.organizeImports" }
+              }
+            },
+            dataSupport = true,
+            dynamicRegistration = true,
+            isPreferredSupport = true,
+            resolveSupport = {
+              properties = { "edit", "command" }
+            }
+          },
+          codeLens = {
+            dynamicRegistration = false,
+            resolveSupport = {
+              properties = { "command" }
+            }
+          },
+          completion = {
+            completionItem = {
+              commitCharactersSupport = false,
+              deprecatedSupport = true,
+              documentationFormat = { "markdown", "plaintext" },
+              preselectSupport = false,
+              resolveSupport = {
+                properties = { "additionalTextEdits", "command" }
+              },
+              snippetSupport = true,
+              tagSupport = {
+                valueSet = { 1 }
+              }
+            },
+            completionItemKind = {
+              valueSet = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 }
+            },
+            completionList = {
+              itemDefaults = { "editRange", "insertTextFormat", "insertTextMode", "data" }
+            },
+            contextSupport = true,
+            dynamicRegistration = false
+          },
+          declaration = {
+            linkSupport = true
+          },
+          definition = {
+            dynamicRegistration = true,
+            linkSupport = true
+          },
+          diagnostic = {
+            dynamicRegistration = false,
+            tagSupport = {
+              valueSet = { 1, 2 }
+            }
+          },
+          documentHighlight = {
+            dynamicRegistration = false
+          },
+          documentSymbol = {
+            dynamicRegistration = false,
+            hierarchicalDocumentSymbolSupport = true,
+            symbolKind = {
+              valueSet = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 }
+            }
+          },
+          foldingRange = {
+            dynamicRegistration = false,
+            foldingRange = {
+              collapsedText = true
+            },
+            foldingRangeKind = {
+              valueSet = { "comment", "imports", "region" }
+            },
+            lineFoldingOnly = true
+          },
+          formatting = {
+            dynamicRegistration = true
+          },
+          hover = {
+            contentFormat = { "markdown", "plaintext" },
+            dynamicRegistration = true
+          },
+          implementation = {
+            linkSupport = true
+          },
+          inlayHint = {
+            dynamicRegistration = true,
+            resolveSupport = {
+              properties = { "textEdits", "tooltip", "location", "command" }
+            }
+          },
+          publishDiagnostics = {
+            dataSupport = true,
+            relatedInformation = true,
+            tagSupport = {
+              valueSet = { 1, 2 }
+            }
+          },
+          rangeFormatting = {
+            dynamicRegistration = true,
+            rangesSupport = true
+          },
+          references = {
+            dynamicRegistration = false
+          },
+          rename = {
+            dynamicRegistration = true,
+            prepareSupport = true
+          },
+          semanticTokens = {
+            augmentsSyntaxTokens = true,
+            dynamicRegistration = false,
+            formats = { "relative" },
+            multilineTokenSupport = false,
+            overlappingTokenSupport = true,
+            requests = {
+              full = {
+                delta = true
+              },
+              range = false
+            },
+            serverCancelSupport = false,
+            tokenModifiers = { "declaration", "definition", "readonly", "static", "deprecated", "abstract", "async", "modification", "documentation", "defaultLibrary" },
+            tokenTypes = { "namespace", "type", "class", "enum", "interface", "struct", "typeParameter", "parameter", "variable", "property", "enumMember", "event", "function", "method", "macro", "keyword", "modifier", "comment", "string", "number", "regexp", "operator", "decorator" }
+          },
+          signatureHelp = {
+            dynamicRegistration = false,
+            signatureInformation = {
+              activeParameterSupport = true,
+              documentationFormat = { "markdown", "plaintext" },
+              parameterInformation = {
+                labelOffsetSupport = true
+              }
+            }
+          },
+          synchronization = {
+            didSave = true,
+            dynamicRegistration = false,
+            willSave = true,
+            willSaveWaitUntil = true
+          },
+          typeDefinition = {
+            linkSupport = true
+          }
+        },
+        window = {
+          showDocument = {
+            support = true
+          },
+          showMessage = {
+            messageActionItem = {
+              additionalPropertiesSupport = true
+            }
+          },
+          workDoneProgress = true
+        },
+        workspace = {
+          applyEdit = true,
+          configuration = true,
+          didChangeConfiguration = {
+            dynamicRegistration = false
+          },
+          didChangeWatchedFiles = {
+            dynamicRegistration = false,
+            relativePatternSupport = true
+          },
+          inlayHint = {
+            refreshSupport = true
+          },
+          semanticTokens = {
+            refreshSupport = true
+          },
+          symbol = {
+            dynamicRegistration = false,
+            symbolKind = {
+              valueSet = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 }
+            }
+          },
+          workspaceEdit = {
+            resourceOperations = { "rename", "create", "delete" }
+          },
+          workspaceFolders = true
+        }
+      },
+    }
+
 vim.lsp.config('*', {
     capabilities = cmp_capabilities
 })
@@ -95,9 +291,9 @@ local cmp = require('cmp')
 cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'path' },
         { name = 'buffer' },
         { name = 'buffer-lines' },
+        { name = 'path' },
     }),
     snippet = {
         expand = function(args)
