@@ -17,12 +17,7 @@ end
 
 require("mason-lspconfig").setup({
     ensure_installed = lsps,
-    handlers = {
-        function(server_name)
-            require('lspconfig')[server_name].setup({})
-        end,
-    }
-
+    automatic_enable = lsps,
 })
 
 -- Reserve a space in the gutter
@@ -30,14 +25,10 @@ vim.opt.signcolumn = 'yes'
 
 -- Add cmp_nvim_lsp capabilities settings to lspconfig
 -- This should be executed before you configure any language server
-local lspconfig_defaults = require('lspconfig').util.default_config
 local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-    'force',
-    lspconfig_defaults.capabilities,
-    cmp_capabilities
-)
+vim.lsp.config('*', {
+    capabilities = cmp_capabilities
+})
 
 -- This is where you enable features that only work
 -- if there is a language server active in the file
@@ -71,28 +62,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers.
 
-local lspconfig = require('lspconfig')
-lspconfig.kotlin_language_server.setup({})
-lspconfig.gleam.setup({})
-lspconfig.ocamllsp.setup({})
+vim.lsp.enable('kotlin_language_server')
+vim.lsp.enable('gleam')
+vim.lsp.enable('ocamllsp')
 if os ~= "Windows" then
-    lspconfig.gdscript.setup({
+    vim.lsp.config('gdscript', {
         name="godot",
         cmd= vim.lsp.rpc.connect("127.0.0.1", 6005)
     })
-    lspconfig.qmlls.setup {}
+    vim.lsp.enable('qmlls')
 else
-    lspconfig.gdscript.setup({
+    vim.lsp.config('gdscript', {
         name="godot",
         cmd= vim.lsp.rpc.connect("127.0.0.1","6008"),
     })
 end
-lspconfig.lua_ls.setup({})
-lspconfig.ts_ls.setup({})
-lspconfig.helm_ls.setup({})
+vim.lsp.enable('gdscript')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('helm_ls')
 
 -- begin Terraform config
-lspconfig.terraformls.setup({})
+vim.lsp.enable('terraformls')
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
   pattern = {"*.tf", "*.tfvars"},
   callback = function()
