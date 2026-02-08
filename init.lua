@@ -10,6 +10,7 @@ end)
 require("customconfig")
 require("config.lazy")
 require("godot")
+require("sandbox")
 
 -- Example for calling a lua function using vimscript in the statusline
 -- function testLuaToVim()
