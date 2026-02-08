@@ -31,6 +31,8 @@ local find_project_root = function ()
     return project_root
 end
 
+-- TODO: Add an option for running the test in a window that doesn't exit
+-- immediately after any key press.
 local run_in_terminal = function (opts)
     vim.cmd.vs()
     vim.cmd.terminal(opts.cmd)
@@ -43,7 +45,7 @@ M.run_tests = function ()
         return
     end
 
-    local cmd = {"godot", "--headless", "-d", "-s", "--path", project_root, "addons/gut/gut_cmdln.gd", "-gexit", "-gdir", project_root}
+    local cmd = {"godot", "--headless", "-s", "--path", project_root, "addons/gut/gut_cmdln.gd", "-gexit", "-gdir", project_root}
     run_in_terminal({ cmd = cmd, project_root = project_root, test_path = project_root })
 end
 
