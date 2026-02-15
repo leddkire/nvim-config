@@ -5,24 +5,86 @@ local parser = ts.get_parser()
 local tree = parser:parse()[1]
 local root = tree:root()
 local lang = parser:lang()
+if root ~= nil then
+    local text = "the root isn't nil"
+    print(text)
+end
+
+local query = ts.query.parse('lua', [[
+(variable_declaration 
+  [
+   (assignment_statement 
+    (variable_list 
+      (identifier) @var_id
+      )
+    )
+    (variable_list 
+      (identifier) @var_id
+      )
+  ] 
+  ) 
+]])
 -- Exercise: show in a separate buffer which variables are in scope under the cursor
 -- Once we can do that, we'll be able to generate a print statement with those values
+-- We want to capture:
+--  local declarations that appear at or before the cursor
+--  function parameters (if the cursor is within one)
+--  declarations on outer scope that appear before the cursor
+--    outer scope function parameters 
+-- use child_with_descendant
+-- Filtering for those matches that are above the current cursor node could be achieved by:
+--   If the node has a child with the current cursor node as a descendant, then we can capture all local declarations in its children.
+--   If the node had function parameters and has a child that is a direct descendant of the current cursore node, then we add those function parameters to the list of captures.
+--
+-- One idea is to get the current node and navigate from the root to it.
+-- For each step we can run a query that captures the local declarations and filter out those that are declared after the current node.
 vim.keymap.set('n', '<leader>t1', function ()
-    local ts_node = ts_utils.get_node_at_cursor()
-    T(ts_node)
+    tree = parser:parse()[1]
+    root = tree:root()
+    local varlist = {}
+    local printstring = "P({"
+    local varstring = ""
+    for id, node, metadata in query:iter_captures(root, 0) do
+        local node_text = ts.get_node_text(node, vim.api.nvim_get_current_buf())
+        P({node:type(), node_text})
+        table.insert(varlist, node_text)
+        if #varstring ~= 0 then
+            varstring = varstring .. ","
+        end
+        varstring = varstring .. node_text
+    end
+    printstring = printstring .. varstring .. "})"
+    vim.api.nvim_put({printstring}, "l", true, true)
+end, { desc="gets all local declarations in current buffer"})
+
+vim.keymap.set('n', '<leader>t2', function ()
+    tree = parser:parse()[1]
+    root = tree:root()
+    local varlist = {}
+    local printstring = "P({"
+    local varstring = ""
+    for id, node, metadata in query:iter_captures(root, 0) do
+        local node_text = ts.get_node_text(node, vim.api.nvim_get_current_buf())
+        P({node:type(), node_text})
+        table.insert(varlist, node_text)
+        if #varstring ~= 0 then
+            varstring = varstring .. ","
+        end
+        varstring = varstring .. node_text
+    end
+    printstring = printstring .. varstring .. "})"
+    vim.api.nvim_put({printstring}, "l", true, true)
 end)
 
 local win
 local buf
-vim.keymap.set('n', '<leader>t2', function ()
+vim.keymap.set('n', '<leader>tw', function ()
     if win ~= nil then
        vim.api.nvim_win_close(win, true)
        win = nil
        vim.api.nvim_buf_delete(buf, { force = true })
        buf = nil
-       return
-    end
-    buf = vim.api.nvim_create_buf(false, true)
+       return end buf = vim.api.nvim_create_buf(false, true)
     local opts = {
         relative =  'cursor',
         width =  10,
