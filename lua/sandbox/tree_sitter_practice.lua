@@ -38,23 +38,32 @@ local query = ts.query.parse('lua', [[
 --
 -- One idea is to get the current node and navigate from the root to it.
 -- For each step we can run a query that captures the local declarations and filter out those that are declared after the current node.
+
+local build_print_string = function(arg_list)
+    local printstring = "P({"
+    local varstring = ""
+    for i in ipairs(arg_list) do
+        if #varstring ~= 0 then
+            varstring = varstring .. ","
+        end
+        varstring = varstring .. arg_list[i]
+    end
+
+    printstring = printstring .. varstring .. "})"
+    return printstring
+end
+
 vim.keymap.set('n', '<leader>t1', function ()
     tree = parser:parse()[1]
     root = tree:root()
     local varlist = {}
-    local printstring = "P({"
-    local varstring = ""
     for id, node, metadata in query:iter_captures(root, 0) do
         local node_text = ts.get_node_text(node, vim.api.nvim_get_current_buf())
         P({node:type(), node_text})
         table.insert(varlist, node_text)
-        if #varstring ~= 0 then
-            varstring = varstring .. ","
-        end
-        varstring = varstring .. node_text
     end
-    printstring = printstring .. varstring .. "})"
-    vim.api.nvim_put({printstring}, "l", true, true)
+    local output = build_print_string(varlist)
+    vim.api.nvim_put({output}, "l", true, true)
 end, { desc="gets all local declarations in current buffer"})
 
 vim.keymap.set('n', '<leader>t2', function ()
