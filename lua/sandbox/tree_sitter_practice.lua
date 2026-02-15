@@ -2,9 +2,6 @@ local ts_utils = require 'nvim-treesitter.ts_utils'
 local ts = vim.treesitter
 
 local parser = ts.get_parser()
-local tree = parser:parse()[1]
-local root = tree:root()
-local lang = parser:lang()
 if root ~= nil then
     local text = "the root isn't nil"
     print(text)
@@ -53,13 +50,16 @@ local build_print_string = function(arg_list)
     return printstring
 end
 
+local get_updated_tree_root = function ()
+    local tree = parser:parse()[1]
+    return tree:root()
+end
+
 vim.keymap.set('n', '<leader>t1', function ()
-    tree = parser:parse()[1]
-    root = tree:root()
+    local root = get_updated_tree_root()
     local varlist = {}
     for id, node, metadata in query:iter_captures(root, 0) do
         local node_text = ts.get_node_text(node, vim.api.nvim_get_current_buf())
-        P({node:type(), node_text})
         table.insert(varlist, node_text)
     end
     local output = build_print_string(varlist)
@@ -67,22 +67,14 @@ vim.keymap.set('n', '<leader>t1', function ()
 end, { desc="gets all local declarations in current buffer"})
 
 vim.keymap.set('n', '<leader>t2', function ()
-    tree = parser:parse()[1]
-    root = tree:root()
+    local root = get_updated_tree_root()
     local varlist = {}
-    local printstring = "P({"
-    local varstring = ""
     for id, node, metadata in query:iter_captures(root, 0) do
         local node_text = ts.get_node_text(node, vim.api.nvim_get_current_buf())
-        P({node:type(), node_text})
         table.insert(varlist, node_text)
-        if #varstring ~= 0 then
-            varstring = varstring .. ","
-        end
-        varstring = varstring .. node_text
     end
-    printstring = printstring .. varstring .. "})"
-    vim.api.nvim_put({printstring}, "l", true, true)
+    local output = build_print_string(varlist)
+    vim.api.nvim_put({output}, "l", true, true)
 end)
 
 local win
