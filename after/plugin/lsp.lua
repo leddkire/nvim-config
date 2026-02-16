@@ -256,6 +256,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 -- These are example language servers.
 
+vim.lsp.enable('lua_ls')
+vim.lsp.config('lua_ls', {
+    settings = {
+        Lua = {
+            workspace = {
+                library = {
+                    vim.fn.expand '~/.local/share/nvim/lazy/plenary.nvim/lua/luassert','~/.local/share/nvim/lazy/plenary.nvim/lua/plenary'
+                }
+            }
+        }
+    }
+})
+
 vim.lsp.enable('kotlin_language_server')
 vim.lsp.enable('gleam')
 vim.lsp.enable('ocamllsp')
