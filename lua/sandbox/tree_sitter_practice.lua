@@ -68,12 +68,17 @@ end, { desc="gets all local declarations in current buffer"})
 
 vim.keymap.set('n', '<leader>t2', function ()
     local root = get_updated_tree_root()
+    local current_node = ts_utils.get_node_at_cursor()
+    local child = root:child_with_descendant(current_node)
+    local buffer = vim.api.nvim_get_current_buf()
+    local child_text = ts.get_node_text(child, buffer)
     local varlist = {}
     for id, node, metadata in query:iter_captures(root, 0) do
-        local node_text = ts.get_node_text(node, vim.api.nvim_get_current_buf())
+        local node_text = ts.get_node_text(node, buffer)
         table.insert(varlist, node_text)
     end
     local output = build_print_string(varlist)
+    vim.api.nvim_put({child_text}, "l", true, true)
     vim.api.nvim_put({output}, "l", true, true)
 end)
 
