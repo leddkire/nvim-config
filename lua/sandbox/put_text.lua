@@ -1,4 +1,3 @@
-print("hello world")
 -- TODO: decouple mappings from descriptions and functions so they can be reused by different sandboxes
 local function test_nvim_paste()
     local phase = -1 -- Don't stream
