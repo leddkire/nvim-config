@@ -223,7 +223,11 @@ local default_lsp_capabilities = {
     }
 
 vim.lsp.config('*', {
-    capabilities = cmp_capabilities
+    capabilities = vim.tbl_deep_extend(
+        'force',
+        {},--default_lsp_capabilities,
+        cmp_capabilities
+    )
 })
 
 -- This is where you enable features that only work
