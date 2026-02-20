@@ -1,26 +1,6 @@
 local ts_utils = require 'nvim-treesitter.ts_utils'
 local ts = vim.treesitter
 
-local parser = ts.get_parser()
-if root ~= nil then
-    local text = "the root isn't nil"
-    print(text)
-end
-
-local query = ts.query.parse('lua', [[
-(variable_declaration 
-  [
-   (assignment_statement 
-    (variable_list 
-      (identifier) @var_id
-      )
-    )
-    (variable_list 
-      (identifier) @var_id
-      )
-  ] 
-  ) 
-]])
 -- Exercise: show in a separate buffer which variables are in scope under the cursor
 -- Once we can do that, we'll be able to generate a print statement with those values
 -- We want to capture:
@@ -56,6 +36,21 @@ local get_updated_tree_root = function ()
 end
 
 vim.keymap.set('n', '<leader>t1', function ()
+	local parser = ts.get_parser()
+	local query = ts.query.parse('lua', [[
+	(variable_declaration 
+	  [
+	   (assignment_statement 
+	    (variable_list 
+	      (identifier) @var_id
+	      )
+	    )
+	    (variable_list 
+	      (identifier) @var_id
+	      )
+	  ] 
+	  ) 
+	]])
     local root = get_updated_tree_root()
     local varlist = {}
     for id, node, metadata in query:iter_captures(root, 0) do
@@ -67,6 +62,21 @@ vim.keymap.set('n', '<leader>t1', function ()
 end, { desc="gets all local declarations in current buffer"})
 
 vim.keymap.set('n', '<leader>t2', function ()
+	local parser = ts.get_parser()
+	local query = ts.query.parse('lua', [[
+	(variable_declaration 
+	  [
+	   (assignment_statement 
+	    (variable_list 
+	      (identifier) @var_id
+	      )
+	    )
+	    (variable_list 
+	      (identifier) @var_id
+	      )
+	  ] 
+	  ) 
+	]])
     local root = get_updated_tree_root()
     local current_node = ts_utils.get_node_at_cursor()
     local child = root:child_with_descendant(current_node)
@@ -105,3 +115,5 @@ vim.keymap.set('n', '<leader>tw', function ()
 end)
 
 -- I can create treesitter queries and execute them to get the information I need as well. I should investigate how to do that too.
+M = {}
+return M

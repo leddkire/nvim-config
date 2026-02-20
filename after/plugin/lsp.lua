@@ -261,12 +261,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- These are example language servers.
 
 vim.lsp.enable('lua_ls')
+local lazy_installation_path = '~/.local/share/nvim/lazy'
 vim.lsp.config('lua_ls', {
     settings = {
         Lua = {
             workspace = {
                 library = {
-                    vim.fn.expand '~/.local/share/nvim/lazy/plenary.nvim/lua/luassert','~/.local/share/nvim/lazy/plenary.nvim/lua/plenary'
+                    vim.fn.expand(
+                        lazy_installation_path .. '/mini.nvim/lua/mini',
+                        lazy_installation_path .. 'plenary.nvim/lua/luassert',
+                        lazy_installation_path .. 'plenary.nvim/lua/plenary'
+                    )
                 }
             }
         }
