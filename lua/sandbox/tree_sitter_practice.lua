@@ -115,5 +115,28 @@ vim.keymap.set('n', '<leader>tw', function ()
 end)
 
 -- I can create treesitter queries and execute them to get the information I need as well. I should investigate how to do that too.
+
 M = {}
+M.get_local_declarations = function (content)
+    if content == "" then
+        return {}
+    end
+
+    local parser = ts.get_string_parser(content, "lua")
+    local tree = parser:parse()[1]
+    local root = tree:root()
+    local query_string = [[
+        ((identifier) @id)
+    ]]
+    local query = ts.query.parse("lua", query_string)
+
+    local declaration_list = {}
+    ---@diagnostic disable-next-line: unused-local
+    for id, node, metadata in query:iter_captures(root, 0) do
+        local node_text = ts.get_node_text(node, content)
+        table.insert(declaration_list, node_text)
+    end
+
+    return declaration_list
+end
 return M
