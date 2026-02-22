@@ -50,6 +50,19 @@ T['cursor at end of file']['returns locally defined variable without assignment'
     expect.equality(result, {"foo"})
 end
 
+T['cursor not at the end or beginning'] = new_set()
+T['cursor not at the end or beginning']['only returns declarations before or at the specified line'] = function ()
+    local content = [[
+        local foo
+        local bar = 2
+        local zip = "hey"
+    ]]
+    local row = 2
+    local result = M.get_local_declarations(content, row)
+    expect.equality(result, {"foo", "bar"})
+end
+
+
 T['cursor at end of file']['returns the local variable declaration before the cursor'] = function()
     -- local content = [[
     --         local foo = 2
