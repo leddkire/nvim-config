@@ -7,7 +7,7 @@ local ts = vim.treesitter
 --  local declarations that appear at or before the cursor
 --  function parameters (if the cursor is within one)
 --  declarations on outer scope that appear before the cursor
---    outer scope function parameters 
+--    outer scope function parameters
 -- use child_with_descendant
 -- Filtering for those matches that are above the current cursor node could be achieved by:
 --   If the node has a child with the current cursor node as a descendant, then we can capture all local declarations in its children.
@@ -30,26 +30,26 @@ local build_print_string = function(arg_list)
     return printstring
 end
 
-local get_updated_tree_root = function ()
+local get_updated_tree_root = function()
     local tree = parser:parse()[1]
     return tree:root()
 end
 
-vim.keymap.set('n', '<leader>t1', function ()
-	local parser = ts.get_parser()
-	local query = ts.query.parse('lua', [[
-	(variable_declaration 
+vim.keymap.set('n', '<leader>t1', function()
+    local parser = ts.get_parser()
+    local query = ts.query.parse('lua', [[
+	(variable_declaration
 	  [
-	   (assignment_statement 
-	    (variable_list 
+	   (assignment_statement
+	    (variable_list
 	      (identifier) @var_id
 	      )
 	    )
-	    (variable_list 
+	    (variable_list
 	      (identifier) @var_id
 	      )
-	  ] 
-	  ) 
+	  ]
+	  )
 	]])
     local root = get_updated_tree_root()
     local varlist = {}
@@ -58,24 +58,24 @@ vim.keymap.set('n', '<leader>t1', function ()
         table.insert(varlist, node_text)
     end
     local output = build_print_string(varlist)
-    vim.api.nvim_put({output}, "l", true, true)
-end, { desc="gets all local declarations in current buffer"})
+    vim.api.nvim_put({ output }, "l", true, true)
+end, { desc = "gets all local declarations in current buffer" })
 
-vim.keymap.set('n', '<leader>t2', function ()
-	local parser = ts.get_parser()
-	local query = ts.query.parse('lua', [[
-	(variable_declaration 
+vim.keymap.set('n', '<leader>t2', function()
+    local parser = ts.get_parser()
+    local query = ts.query.parse('lua', [[
+	(variable_declaration
 	  [
-	   (assignment_statement 
-	    (variable_list 
+	   (assignment_statement
+	    (variable_list
 	      (identifier) @var_id
 	      )
 	    )
-	    (variable_list 
+	    (variable_list
 	      (identifier) @var_id
 	      )
-	  ] 
-	  ) 
+	  ]
+	  )
 	]])
     local root = get_updated_tree_root()
     local current_node = ts_utils.get_node_at_cursor()
@@ -88,46 +88,62 @@ vim.keymap.set('n', '<leader>t2', function ()
         table.insert(varlist, node_text)
     end
     local output = build_print_string(varlist)
-    vim.api.nvim_put({child_text}, "l", true, true)
-    vim.api.nvim_put({output}, "l", true, true)
+    vim.api.nvim_put({ child_text }, "l", true, true)
+    vim.api.nvim_put({ output }, "l", true, true)
 end)
 
 local win
 local buf
-vim.keymap.set('n', '<leader>tw', function ()
+vim.keymap.set('n', '<leader>tw', function()
     if win ~= nil then
-       vim.api.nvim_win_close(win, true)
-       win = nil
-       vim.api.nvim_buf_delete(buf, { force = true })
-       buf = nil
-       return end buf = vim.api.nvim_create_buf(false, true)
+        vim.api.nvim_win_close(win, true)
+        win = nil
+        vim.api.nvim_buf_delete(buf, { force = true })
+        buf = nil
+        return
+    end
+    buf = vim.api.nvim_create_buf(false, true)
     local opts = {
-        relative =  'cursor',
-        width =  10,
-        height =  2,
-        col =  0,
-        row =  1,
-        anchor =  'NW',
-        style =  'minimal'
+        relative = 'cursor',
+        width = 10,
+        height = 2,
+        col = 0,
+        row = 1,
+        anchor = 'NW',
+        style = 'minimal'
     }
     win = vim.api.nvim_open_win(buf, false, opts)
-
 end)
 
 -- I can create treesitter queries and execute them to get the information I need as well. I should investigate how to do that too.
 
 M = {}
-M.get_local_declarations = function (content)
+M.get_local_declarations = function(content)
     if content == "" then
         return {}
     end
 
-    print('hi')
+    local foo
     local parser = ts.get_string_parser(content, "lua")
     local tree = parser:parse()[1]
     local root = tree:root()
     local query_string = [[
-        (variable_declaration (assignment_statement (variable_list (identifier) @local_identifier)))
+        (
+            [
+            (variable_declaration (
+                assignment_statement (
+                    variable_list (
+                        identifier
+                    ) @local_identifier
+                )
+            ))
+            (variable_declaration (
+                variable_list (
+                    identifier
+                ) @local_identifier
+            ) )
+            ]
+        )
     ]]
     local query = ts.query.parse("lua", query_string)
 

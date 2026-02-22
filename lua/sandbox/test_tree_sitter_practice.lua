@@ -9,38 +9,45 @@ dofile('lua/sandbox/tree_sitter_practice.lua')
 T = new_set()
 T['cursor at end of file'] = new_set()
 
-T['cursor at end of file']['returns and empty array when content is empty'] = function ()
+T['cursor at end of file']['returns and empty array when content is empty'] = function()
     local content = ""
     local result = M.get_local_declarations(content)
     expect.equality(result, {})
 end
 
-T['cursor at end of file']['returns the local declaration if it is the only line'] = function ()
+T['cursor at end of file']['returns the local declaration if it is the only line'] = function()
     local content = "local foo = 1"
     local result = M.get_local_declarations(content)
-    expect.equality(result, {"foo"})
+    expect.equality(result, { "foo" })
 end
 
-T['cursor at end of file']['returns both declarations if they are in the same line'] = function ()
+T['cursor at end of file']['returns both declarations if they are in the same line'] = function()
     local content = "local foo, bar = 1, 2"
     local result = M.get_local_declarations(content)
-    expect.equality(result, {"foo", "bar"})
+    expect.equality(result, { "foo", "bar" })
 end
 
-T['cursor at end of file']['returns both declarations if they are in different lines'] = function ()
+T['cursor at end of file']['returns both declarations if they are in different lines'] = function()
     local content = [[
         local foo = 1
         local bar = 2
     ]]
     local result = M.get_local_declarations(content)
-    expect.equality(result, {"foo", "bar"})
+    expect.equality(result, { "foo", "bar" })
 end
-T['cursor at end of file']['does not include print statement'] = function ()
+T['cursor at end of file']['does not include print statement'] = function()
     local content = [[
         print("hi")
     ]]
     local result = M.get_local_declarations(content)
     expect.equality(result, {})
+end
+T['cursor at end of file']['returns locally defined variable without assignment'] = function()
+    local content = [[
+        local foo
+    ]]
+    local result = M.get_local_declarations(content)
+    expect.equality(result, {"foo"})
 end
 
 T['cursor at end of file']['returns the local variable declaration before the cursor'] = function()
