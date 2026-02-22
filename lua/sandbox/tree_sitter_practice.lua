@@ -122,11 +122,12 @@ M.get_local_declarations = function (content)
         return {}
     end
 
+    print('hi')
     local parser = ts.get_string_parser(content, "lua")
     local tree = parser:parse()[1]
     local root = tree:root()
     local query_string = [[
-        ((identifier) @id)
+        (variable_declaration (assignment_statement (variable_list (identifier) @local_identifier)))
     ]]
     local query = ts.query.parse("lua", query_string)
 
