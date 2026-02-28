@@ -51,6 +51,9 @@ vim.keymap.set("v", "<leader>x", ":lua<CR>")
 
 local buf = vim.api.nvim_create_buf(false, true)
 local window
+vim.keymap.set('n', '<leader><leader><F1>', function ()
+    vim.cmd.messages("clear")
+end, {desc = "Clears messages"})
 vim.keymap.set('n', '<leader><F1>', function ()
     --TODO: Move this to a module so it can be used in other cases
     local messages = vim.split(vim.fn.execute("messages", "silent"), "\n")
