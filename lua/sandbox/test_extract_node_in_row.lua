@@ -94,6 +94,15 @@ T['single block with 1 line inside']['requesting row 2 will return the local dec
     local expected ="local foo"
     expect.equality(result_text, expected)
 end
+T['single block with 1 line inside']['requesting row 3 will return the block'] = function ()
+    local input = "if(true == true) then\n    local foo\nend"
+    local parser = build_parser(input)
+
+    local result_text = get_text_for_node_at_row(parser, 3)
+
+    local expected ="if(true == true) then\n    local foo\nend"
+    expect.equality(result_text, expected)
+end
 
 function get_text_for_node_at_row(parser, row)
     local result = get_node_at_row(parser, row)
