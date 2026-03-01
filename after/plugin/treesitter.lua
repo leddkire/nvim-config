@@ -54,11 +54,11 @@ require('nvim-treesitter.configs').setup {
             keymaps = {
                 ["af"] = "@call.outer",
                 ["if"] = "@call.inner",
-                ["am"] = "@function.inner",
+                ["am"] = "@function.outer",
                 ["im"] = "@function.inner",
                 ["al"] = "@loop.outer",
                 ["il"] = "@loop.inner",
-                ["aa"] = "@parameter.inner",
+                ["aa"] = "@parameter.outer",
                 ["ia"] = "@parameter.inner",
             }
         },
