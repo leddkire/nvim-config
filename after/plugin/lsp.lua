@@ -75,10 +75,13 @@ vim.lsp.config('lua_ls', {
                         lazy_installation_path .. '/mini.nvim/lua/mini'
                     ),
                     vim.fn.expand(
-                        lazy_installation_path .. 'plenary.nvim/lua/luassert'
+                        lazy_installation_path .. '/plenary.nvim/lua/luassert'
                     ),
                     vim.fn.expand(
-                        lazy_installation_path .. 'plenary.nvim/lua/plenary'
+                        lazy_installation_path .. '/plenary.nvim/lua/plenary'
+                    ),
+                    vim.fn.expand(
+                        lazy_installation_path .. '/telescope.nvim/lua/telescope'
                     )
                 }
             }
