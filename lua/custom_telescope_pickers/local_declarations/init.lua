@@ -66,15 +66,30 @@ local local_declarations = function(opts)
         },
         attach_mappings = function(prompt_bufnr, map)
             actions.select_default:replace(function()
+                local selected_entries = {}
+                local formatted_string = ""
+
                 local selection = action_state.get_selected_entry()
-                local selected_entries = { selection.text }
-                local formatted_string = selection.text
                 action_utils.map_selections(prompt_bufnr, function(entry, index)
                     table.insert(selected_entries, entry.text)
-                    formatted_string = formatted_string .. "," .. entry.text
                 end)
+
+                if(#selected_entries == 0) then
+                    selected_entries = { selection.text }
+                end
+
+                P("selected_entries: " .. vim.inspect(selected_entries))
+                for index, value in ipairs(selected_entries) do
+                    formatted_string = formatted_string .. value
+                    P("formatted_string: " .. formatted_string)
+                    if(index < #selected_entries) then
+                        formatted_string = formatted_string .. ","
+                    end
+                end
                 actions.close(prompt_bufnr)
-                vim.api.nvim_put({ "print(" .. formatted_string .. ")" }, "l", false, true)
+                local print_string = { "print(" .. formatted_string .. ")" }
+                local line_num = vim.api.nvim_win_get_cursor(0)[1]
+                vim.api.nvim_buf_set_lines( 0, line_num, line_num, false, print_string)
             end)
             return true
         end,
