@@ -15,6 +15,12 @@ local ts = vim.treesitter
 --
 -- One idea is to get the current node and navigate from the root to it.
 -- For each step we can run a query that captures the local declarations and filter out those that are declared after the current node.
+-- Once we get the node from the cursor, we can start traversing the root finding it
+-- For each descendant that has the child:
+--   get all of the nodes that are local declarations
+--  
+--   find the node that has the child and go down that one
+--   repeat
 
 local build_print_string = function(arg_list)
     local printstring = "P({"
@@ -115,10 +121,34 @@ vim.keymap.set('n', '<leader>tw', function()
     win = vim.api.nvim_open_win(buf, false, opts)
 end)
 
--- I can create treesitter queries and execute them to get the information I need as well. I should investigate how to do that too.
-
 M = {}
-M.get_local_declarations = function(content, row)
+M.get_local_declarations_v2 = function(content, line)
+    if content == "" then
+        return {}
+    end
+
+    local parser = ts.get_string_parser(content, "lua")
+    local tree = parser:parse()[1]
+    local root = tree:root()
+    local row_end
+    if(line == nil) then
+        row_end = root:end_()
+    else
+        row_end = line
+    end
+
+    local query = ts.query.parse('lua', "")
+
+    local declaration_list = {}
+    ---@diagnostic disable-next-line: unused-local
+    for id, node, metadata in query:iter_captures(root, 0, root:start(), row_end) do
+        local node_text = ts.get_node_text(node, content)
+        table.insert(declaration_list, node_text)
+    end
+
+    return declaration_list
+end
+M.get_local_declarations = function(content, line)
     if content == "" then
         return {}
     end
@@ -145,12 +175,11 @@ M.get_local_declarations = function(content, row)
         )
     ]]
     local query = ts.query.parse("lua", query_string)
-
     local row_end
-    if(row == nil) then
+    if(line == nil) then
         row_end = root:end_()
     else
-        row_end = row
+        row_end = line
     end
 
     local declaration_list = {}

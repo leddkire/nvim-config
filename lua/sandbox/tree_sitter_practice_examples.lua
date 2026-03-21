@@ -8,8 +8,15 @@ if 1 == 2 then
     local bar
     if 1 == 4 then
         local derp
+        local foo = {
+            "hey",
+            {
+                "hi"
+            }
+        }
     else
         local morp
+        morp = 2
     end
 end
 if 1 == 2 then
