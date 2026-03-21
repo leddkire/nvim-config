@@ -66,9 +66,11 @@ local local_declarations = function(opts)
         },
         attach_mappings = function(prompt_bufnr, map)
             actions.select_default:replace(function()
+
                 local selected_entries = {}
                 local formatted_string = ""
 
+                -- get selected entries
                 local selection = action_state.get_selected_entry()
                 action_utils.map_selections(prompt_bufnr, function(entry, index)
                     table.insert(selected_entries, entry.text)
@@ -78,18 +80,24 @@ local local_declarations = function(opts)
                     selected_entries = { selection.text }
                 end
 
-                P("selected_entries: " .. vim.inspect(selected_entries))
+                -- Generate print string
                 for index, value in ipairs(selected_entries) do
                     formatted_string = formatted_string .. value
-                    P("formatted_string: " .. formatted_string)
                     if(index < #selected_entries) then
                         formatted_string = formatted_string .. ","
                     end
                 end
-                actions.close(prompt_bufnr)
                 local print_string = { "print(" .. formatted_string .. ")" }
+
+                -- need to close the prompt buffer before we can write to the actual current buffer where
+                -- the declarations are located.
+                actions.close(prompt_bufnr)
+
+                -- put string in buffer
                 local line_num = vim.api.nvim_win_get_cursor(0)[1]
                 vim.api.nvim_buf_set_lines( 0, line_num, line_num, false, print_string)
+                -- formats the last changed position in the buffer.
+                vim.cmd("norm! '.gqq")
             end)
             return true
         end,
@@ -98,7 +106,6 @@ end
 -- to execute the function
 local themes = require "telescope.themes"
 
-local_declarations()
 return function(opts)
     local_declarations(opts)
 end
