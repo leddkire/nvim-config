@@ -126,7 +126,6 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'buffer' },
-        { name = 'buffer-lines' },
         { name = 'path' },
     }),
     snippet = {
@@ -147,8 +146,8 @@ cmp.setup({
 cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
     sources = {
+        { name = 'nvim_lsp' },
         { name = 'buffer' },
-        { name = 'buffer-lines' },
     }
 })
 
