@@ -11,7 +11,6 @@ require("customconfig")
 require("config.lazy")
 require("godot")
 require("sandbox")
-
 -- Example for calling a lua function using vimscript in the statusline
 -- function testLuaToVim()
 --     return "hello world"
@@ -44,7 +43,7 @@ vim.o.smartcase = true
 
 vim.o.termguicolors = true
 vim.o.background = 'light'
-vim.cmd.colorscheme 'onenord'
+vim.cmd.colorscheme 'flexoki'
 
 if (os == "Linux") then
     vim.cmd.language 'en_US.UTF-8'
