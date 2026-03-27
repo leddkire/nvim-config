@@ -74,3 +74,5 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 
 vim.o.completeopt = 'fuzzy,menu,preview,noinsert'
+
+vim.o.pumheight = 10 -- Limits completion pop window height to 10 rows
