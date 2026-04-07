@@ -20,7 +20,7 @@ return {
                 lualine_b = { "branch" },
 
                 lualine_c = {
-                    'filename',
+                    { 'filename', path=1},
                     "diagnostics",
                     { "filetype",                   icon_only = true, separator = "", padding = { left = 1, right = 0 } },
                 },
